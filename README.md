@@ -1,4 +1,5 @@
-#  Schedule API (Lv3)
+
+# Schedule API (Lv3)
 
 ##  프로젝트 개요
 
@@ -20,16 +21,17 @@ schedules.author_id → authors.id (Foreign Key)
 
 ---
 
-##  API 명세서 (Lv3)
+## 📑 API 명세서 (Lv3)
 
-| API 명    | Method | URL                                            | Request                                               | Response                                                                               | 상태코드           |
-| -------- | ------ | ---------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------- |
-| 작성자 등록   | POST   | /authors                                       | `{ "name": "...", "email": "..." }`                   | `{ "id": 1, "name": "...", "email": "...", "createdAt": "...", "modifiedAt": "..." }`  | 201 Created    |
-| 일정 등록    | POST   | /schedules                                     | `{ "todo": "...", "authorId": 1, "password": "..." }` | `{ "id": 1, "todo": "...", "author": "홍길동", "createdAt": "...", "modifiedAt": "..." }` | 201 Created    |
-| 전체 일정 조회 | GET    | /schedules?author=홍길동\&modifiedDate=2025-05-10 | (QueryParam)                                          | `[ { ... }, { ... } ]`                                                                 | 200 OK         |
-| 개별 일정 조회 | GET    | /schedules/{id}                                | (PathVariable)                                        | `{ "id": 1, "todo": "...", "author": "홍길동", "createdAt": "...", "modifiedAt": "..." }` | 200 OK         |
-| 일정 수정    | PUT    | /schedules/{id}                                | `{ "todo": "...", "password": "..." }`                | `{ 수정된 일정 응답 }`                                                                        | 200 OK         |
-| 일정 삭제    | DELETE | /schedules/{id}                                | `{ "password": "..." }`                               | -                                                                                      | 204 No Content |
+| API 명      | Method  | URL                                            | Request                                               | Response                                                                               | 상태코드           |
+| ---------- | ------- | ---------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------- |
+| 작성자 등록     | POST    | /authors                                       | `{ "name": "...", "email": "..." }`                   | `{ "id": 1, "name": "...", "email": "...", "createdAt": "...", "modifiedAt": "..." }`  | 201 Created    |
+| **작성자 수정** | **PUT** | **/authors/{id}**                              | `{ "name": "...", "email": "..." }`                   | -                                                                                      | 200 OK         |
+| 일정 등록      | POST    | /schedules                                     | `{ "todo": "...", "authorId": 1, "password": "..." }` | `{ "id": 1, "todo": "...", "author": "홍길동", "createdAt": "...", "modifiedAt": "..." }` | 201 Created    |
+| 전체 일정 조회   | GET     | /schedules?author=홍길동\&modifiedDate=2025-05-10 | (QueryParam)                                          | `[ { ... }, { ... } ]`                                                                 | 200 OK         |
+| 개별 일정 조회   | GET     | /schedules/{id}                                | (PathVariable)                                        | `{ "id": 1, "todo": "...", "author": "홍길동", "createdAt": "...", "modifiedAt": "..." }` | 200 OK         |
+| 일정 수정      | PUT     | /schedules/{id}                                | `{ "todo": "...", "password": "..." }`                | `{ 수정된 일정 응답 }`                                                                        | 200 OK         |
+| 일정 삭제      | DELETE  | /schedules/{id}                                | `{ "password": "..." }`                               | -                                                                                      | 204 No Content |
 
 ---
 
@@ -37,7 +39,7 @@ schedules.author_id → authors.id (Foreign Key)
 
 ### 1. MySQL 서버 실행
 
-
+MySQL 서버를 먼저 실행합니다.
 
 ### 2. 데이터베이스 생성
 
@@ -91,13 +93,15 @@ spring:
 ./gradlew bootRun
 ```
 
-또는 IntelliJ Run 버튼 클릭
+또는 IntelliJ Run 버튼 클릭.
 
 ### 6. Postman 등으로 API 테스트
 
+* 작성자 등록 → 일정 등록 → 작성자 수정 → 일정 조회 등 시나리오 테스트.
+
 ---
 
-##  전체 흐름 구조
+## 전체 흐름 구조
 
 ```
 [Client] (Postman, Frontend)
@@ -111,11 +115,21 @@ spring:
 [MySQL DB] - authors / schedules 테이블
 ```
 
-예시: 일정 생성 흐름
+### 예시: 일정 생성 흐름
+
 `POST /schedules`
 → ScheduleController.create()
 → ScheduleService.create()
 → ScheduleRepository.save()
 → DB Insert
 → 응답 반환 (ScheduleResponse)
+
+---
+
+##  변경사항 요약
+
+작성자(Author) 정보 수정 API (PUT /authors/{id}) 추가.
+
+작성자(Author)의 수정일(modified_at)을 업데이트할 수 있도록 기능 확장.
+
 
