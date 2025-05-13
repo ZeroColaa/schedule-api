@@ -39,7 +39,6 @@ schedules.author_id → authors.id (Foreign Key)
 
 ### 1. MySQL 서버 실행
 
-MySQL 서버를 먼저 실행합니다.
 
 ### 2. 데이터베이스 생성
 
