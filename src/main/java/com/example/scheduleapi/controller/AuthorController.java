@@ -1,8 +1,10 @@
 package com.example.scheduleapi.controller;
 
+import com.example.scheduleapi.dto.AuthorUpdateRequest;
 import com.example.scheduleapi.entity.Author;
 import com.example.scheduleapi.dto.AuthorCreateRequest;
 import com.example.scheduleapi.repository.AuthorRepository;
+import com.example.scheduleapi.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.time.LocalDateTime;
 public class AuthorController {
 
     private final AuthorRepository authorRepository;
+    private final AuthorService authorService;
 
     @PostMapping
     public ResponseEntity<Author> create(@RequestBody AuthorCreateRequest request) {
@@ -39,5 +42,10 @@ public class AuthorController {
         );
 
         return ResponseEntity.status(201).body(saved);
+    }
+
+    @PutMapping("/{id}")
+    public void updateAuthor(@PathVariable Long id, @RequestBody AuthorUpdateRequest request) {
+        authorService.update(id, request);
     }
 }

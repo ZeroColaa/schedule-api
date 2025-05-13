@@ -1,4 +1,4 @@
--- authors
+-- authors 테이블
 CREATE TABLE IF NOT EXISTS authors (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     name        VARCHAR(100)  NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS authors (
     modified_at DATETIME      NOT NULL
     );
 
--- schedules (author_id FK)
+-- schedules 테이블 (author_id FK)
 CREATE TABLE IF NOT EXISTS schedules (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     todo        VARCHAR(255)  NOT NULL,

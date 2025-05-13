@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +53,22 @@ public class AuthorRepository {
                 rs.getString("email"),
                 rs.getTimestamp("created_at").toLocalDateTime(),
                 rs.getTimestamp("modified_at").toLocalDateTime()
+        );
+    }
+
+
+    public void update(Author author) {
+        String sql = """
+            UPDATE authors
+            SET name = ?, email = ?, modified_at = ?
+            WHERE id = ?
+        """;
+
+        jdbc.update(sql,
+                author.getName(),
+                author.getEmail(),
+                Timestamp.valueOf(author.getModifiedAt()),
+                author.getId()
         );
     }
 }
